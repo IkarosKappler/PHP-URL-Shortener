@@ -12,6 +12,8 @@ Options All -Indexes
 
 <IfModule mod_rewrite.c>
 RewriteEngine On
-RewriteRule ^shorten/(.*)$ shorten.php?longurl=$1 [L,NE]
+# Use THE_REQUEST to match URL, otherwise double slashes will be stripped
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/+([^/]+)/([^\s]*)\s [NC]
+RewriteRule ^shorten/(.*)$ shorten.php?longurl=%2 [L,QSA,NE]
 RewriteRule ^([0-9a-zA-Z]{1,6})$ redirect.php?url=$1 [L]
 </IfModule>
