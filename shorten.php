@@ -3,9 +3,15 @@
  * First authored by Brian Cray
  * License: http://creativecommons.org/licenses/by/3.0/
  * Contact the author at http://briancray.com/
+ *
+ * @modified Ika 2017-02-22 Updated for PHP7.0.
  */
  
 ini_set('display_errors', 0);
+
+if( !array_key_exists('longurl',$_REQUEST) ) {
+    die( 'Please pass a longurl.' );
+}
 
 $url_to_shorten = get_magic_quotes_gpc() ? stripslashes(trim($_REQUEST['longurl'])) : trim($_REQUEST['longurl']);
 
@@ -36,8 +42,10 @@ if(!empty($url_to_shorten) && preg_match('|^https?://|', $url_to_shorten))
 	}
 	
 	// check if the URL has already been shortened
-	$already_shortened = mysql_result(mysql_query('SELECT id FROM ' . DB_TABLE. ' WHERE long_url="' . mysql_real_escape_string($url_to_shorten) . '"'), 0, 0);
-	if(!empty($already_shortened))
+    $resulti = $mysqli->query('SELECT id FROM ' . DB_TABLE. ' WHERE long_url="' . $mysqli->real_escape_string($url_to_shorten) . '";');
+    $row = $resulti->fetch_assoc();
+    $already_shortened = null;
+	if( $row && !empty($already_shortened = $row['id']))
 	{
 		// URL has already been shortened
 		$shortened_url = getShortenedURLFromID($already_shortened);
@@ -45,20 +53,24 @@ if(!empty($url_to_shorten) && preg_match('|^https?://|', $url_to_shorten))
 	else
 	{
 		// URL not in database, insert
-		mysql_query('LOCK TABLES ' . DB_TABLE . ' WRITE;');
-		mysql_query('INSERT INTO ' . DB_TABLE . ' (long_url, created, creator) VALUES ("' . mysql_real_escape_string($url_to_shorten) . '", "' . time() . '", "' . mysql_real_escape_string($_SERVER['REMOTE_ADDR']) . '")');
-		$shortened_url = getShortenedURLFromID(mysql_insert_id());
-		mysql_query('UNLOCK TABLES');
+		$mysqli->query('LOCK TABLES ' . DB_TABLE . ' WRITE;');
+		$mysqli->query('INSERT INTO ' . DB_TABLE . ' (long_url, created, creator) VALUES ("' . $mysqli->real_escape_string($url_to_shorten) . '", "' . time() . '", "' . $mysqli->real_escape_string($_SERVER['REMOTE_ADDR']) . '");');
+		$shortened_url = getShortenedURLFromID($mysqli->insert_id);
+		$mysqli->query('UNLOCK TABLES;');
 	}
 	echo BASE_HREF . $shortened_url;
+} else {
+    header("HTTP/1.0 400 Bad Request");
+    die( 'Bad Request' );
 }
 
 function getShortenedURLFromID ($integer, $base = ALLOWED_CHARS)
 {
 	$length = strlen($base);
+    $out = '';
 	while($integer > $length - 1)
 	{
-		$out = $base[fmod($integer, $length)] . $out;
+		$out = $base[$integer%$length] . $out;
 		$integer = floor( $integer / $length );
 	}
 	return $base[$integer] . $out;

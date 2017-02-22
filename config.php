@@ -3,6 +3,8 @@
  * First authored by Brian Cray
  * License: http://creativecommons.org/licenses/by/3.0/
  * Contact the author at http://briancray.com/
+ *
+ * @modified Ika 2017-02-22 Updated for PHP7.0.
  */
 
 // db options
@@ -13,8 +15,8 @@ define('DB_HOST', 'localhost');
 define('DB_TABLE', 'shortenedurls');
 
 // connect to database
-mysql_connect(DB_HOST, DB_USER, DB_PASSWORD);
-mysql_select_db(DB_NAME);
+$mysqli = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+
 
 // base location of script (include trailing slash)
 define('BASE_HREF', 'http://' . $_SERVER['HTTP_HOST'] . '/');

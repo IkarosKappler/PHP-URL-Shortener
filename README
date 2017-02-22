@@ -34,3 +34,23 @@ Using your personal URL shortener service
 - To manually shorten URLs open in your web browser the location where you uploaded the files.
 - To programmatically shorten URLs with PHP use the following code:
     $shortenedurl = file_get_contents('http://yourdomain.com/shorten.php?longurl=' . urlencode('http://' . $_SERVER['HTTP_HOST']  . '/' . $_SERVER['REQUEST_URI']));
+
+
+
+= Changelog =
+
+[2017-02-22]
+ * Changed from mysql to mysqli.
+ * New version is compatible with PHP >= 7.0.
+ * Replaced mysql_query by mysqli::query.
+ * Replaced mysql_real_escape_string by mysqli::real_escape_string.
+ * Replace fmod (on integers) by integer modulo operator %.
+ * Declared (previously undeclared) variable $out in getShortenedURLFromID function.
+ * Replaced mysql_result by mysqli::query and mysqli_result::fetch_assoc.
+ * Added param checks for $_GET and $_REQUEST.
+ * Added a file-exists and file-readable check for the cache (hint: old files in the cache directory are never purged. Idea: use temp directory).
+ * CACHE usage set to FALSE by default (config).
+ * Summed up the 'fetch long_url by shortened_url' into one function (fetchURL).
+ * Added '400 Bad Request' response if input 'long_url' is malformed.
+ * Tested on Debian8 Jessie, PHP7.0, Apache/2.4.10 (Debian), MySQL 14.14 Distrib 5.7.17, for Linux (x86_64).
+ 
