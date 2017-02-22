@@ -52,5 +52,11 @@ Using your personal URL shortener service
  * CACHE usage set to FALSE by default (config).
  * Summed up the 'fetch long_url by shortened_url' into one function (fetchURL).
  * Added '400 Bad Request' response if input 'long_url' is malformed.
+ * Changed this line in the .htaccess file
+    before:
+       RewriteRule ^shorten/(.*)$ shorten.php?longurl=$1 [L]
+    after:
+       RewriteRule ^shorten/(.*)$ shorten.php?longurl=$1 [L,NE]
+    Reason: the NE (noescape) flag is required here, otherwise your (hopefully encoded) URL param gets encoded a second time during redirect.
  * Tested on Debian8 Jessie, PHP7.0, Apache/2.4.10 (Debian), MySQL 14.14 Distrib 5.7.17, for Linux (x86_64).
  
