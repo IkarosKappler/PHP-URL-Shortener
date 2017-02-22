@@ -54,8 +54,8 @@ Using your personal URL shortener service
  * Added '400 Bad Request' response if input 'long_url' is malformed.
  * Added/changes these line(s) in the .htaccess file
     RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/+([^/]+)/([^\s]*)\s [NC]
-    RewriteRule ^shorten/(.*)$ shorten.php?longurl=%2 [L,QSA,NE]
-    
+    RewriteRule ^shorten/(.*)$ shorten.php?longurl=%2 [L,QSA,NE] 
     Reason: the NE (noescape) flag is required here, otherwise your (hopefully encoded) URL param gets encoded a second time during redirect end, and the input is matched with THE_REQUEST so double slashes are not removed from the target URL.
+ * Added the Content-Type header (text/plain) to the shorten.php.
  * Tested on Debian8 Jessie, PHP7.0, Apache/2.4.10 (Debian), MySQL 14.14 Distrib 5.7.17, for Linux (x86_64).
  

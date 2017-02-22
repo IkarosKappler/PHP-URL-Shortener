@@ -6,7 +6,9 @@
  *
  * @modified Ika 2017-02-22 Updated for PHP7.0.
  */
- 
+
+header( 'Content-Type: text/plain;charset=utf-8' );
+
 ini_set('display_errors', 0);
 
 if( !array_key_exists('longurl',$_REQUEST) ) {
