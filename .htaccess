@@ -1,4 +1,4 @@
-DirectoryIndex index.php
+DirectoryIndex index.html index.php
 
 # remove the next 3 lines if you see a 500 server error
 php_flag register_globals off
@@ -9,6 +9,10 @@ FileETag none
 ServerSignature Off
 
 Options All -Indexes
+
+<IfModule mod_headers.c>    
+    Header set Access-Control-Allow-Origin *
+</IfModule>
 
 <IfModule mod_rewrite.c>
 RewriteEngine On
