@@ -39,6 +39,9 @@ Using your personal URL shortener service
 
 = Changelog =
 -------------
+[2017-03-20, Ika]
+ * Added a /usage file.
+
 [2017-02-22, Ika]
  * Changed from mysql to mysqli.
  * New version is compatible with PHP >= 7.0.

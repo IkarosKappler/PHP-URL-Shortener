@@ -1,21 +1,30 @@
-<p>If you are seeing this, your <code>.htaccess</code> file is configured incorrectly or doesn't exist.</p>
-<p>Copy and paste the code below into your <code>.htaccess</code> file</p>
-<pre>
-DirectoryIndex index.php
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>url.func.name</title>
+  </head>
 
-php_flag register_globals off
-php_flag magic_quotes_gpc off
-
-FileETag none
-ServerSignature Off
-
-Options All -Indexes
-
-&lt;IfModule mod_rewrite.c&gt;
-RewriteEngine On
-RewriteRule ^shorten/(.*)$ shorten.php?longurl=$1 [L]
-RewriteRule ^([0-9a-zA-Z]{1,6})$ redirect.php?url=$1 [L]
-&lt;/IfModule&gt;
-</pre>
-
-<p>For detailed instructions, visit Brian Cray</p>
+  <body>
+    <style>
+      div#message {
+      width        : 400px;
+      height       : 100px;
+      position     : fixed;
+      left         : 50%;
+      top          : 50%;
+      margin-top   : -50px;
+      margin-left  : -200px;
+      text-align   : center;
+      color        : #0A5DAB;
+      font-family  : "Palatino Linotype", "Book Antiqua", Palatino, serif;
+      font-size    : 16pt;
+      }
+    </style>
+    <div id="message">
+      Ooooh, that thing has redirects.
+      <div style="text-align: right; font-size: 8pt;">
+	&mdash; Resource Locating Core
+      </div>
+    </div>
+  </body>
+  </html>

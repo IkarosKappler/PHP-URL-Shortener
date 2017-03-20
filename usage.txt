@@ -1,0 +1,2 @@
+Shorten:  ./shorten/<url>
+Redirect: ./<key>
